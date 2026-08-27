@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#10191b">
+  <meta name="description" content="山城打工生活模拟器：30天，从50元开始，在重庆打工、摆摊、投资店铺并还清父亲的手术借款。">
+  <title>山城浮生 · 打工生活模拟器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-shell" aria-live="polite">
+    <header class="topbar">
+      <div class="brand-block">
+        <button class="brand-mark" id="brandBtn" aria-label="打开游戏菜单">山</button>
+        <div>
+          <p class="eyebrow">CHONGQING · 30 DAYS</p>
+          <h1>山城浮生</h1>
+        </div>
+      </div>
+
+      <div class="date-block">
+        <span class="day-label" id="dayLabel">第 1 天</span>
+        <strong id="timeLabel">清晨 · 06:30</strong>
+        <div class="time-dots" id="timeDots" aria-label="今日时段"></div>
+      </div>
+
+      <div class="finance-block">
+        <div class="finance money"><span>现金</span><strong id="moneyValue">¥50</strong></div>
+        <div class="finance debt"><span>待还债务</span><strong id="debtValue">¥30,000</strong></div>
+        <button class="icon-btn" id="soundBtn" aria-label="切换声音">♪</button>
+        <button class="icon-btn" id="saveBtn" aria-label="保存游戏">存</button>
+      </div>
+    </header>
+
+    <main class="game-grid">
+      <aside class="location-panel panel">
+        <div class="panel-heading">
+          <span>山城地图</span>
+          <small id="weatherLabel">小雨 · 22℃</small>
+        </div>
+        <nav class="location-list" id="locationList" aria-label="场景地点"></nav>
+        <div class="map-foot">
+          <span class="pulse-dot"></span>
+          <p>通勤耗时 <b>1段</b> · 没钱步行 <b>2段</b> · 末班后打车回家</p>
+        </div>
+      </aside>
+
+      <section class="scene-panel" id="scenePanel">
+        <div class="scene-bg" id="sceneBg"></div>
+        <div class="scene-shade"></div>
+        <div class="city-grain"></div>
+
+        <div class="scene-topline">
+          <div class="location-chip"><span id="locationIcon">⌂</span><b id="locationName">石板坡出租屋</b></div>
+          <div class="deadline-chip"><span>距还款日</span><b id="deadlineValue">29天</b></div>
+        </div>
+
+        <div class="scene-copy">
+          <p class="scene-kicker" id="sceneKicker">渝中 · 石板坡</p>
+          <h2 id="sceneTitle">雨从窗缝里吹进来</h2>
+          <p id="sceneDesc">床板很硬，山城的灯却亮得很远。你把最后五十块钱压在搪瓷杯下，今天必须找到活干。</p>
+        </div>
+
+        <div class="npc-stage" id="npcStage" hidden>
+          <img id="npcPortrait" alt="NPC立绘">
+          <div class="npc-caption">
+            <small id="npcRole"></small>
+            <strong id="npcName"></strong>
+          </div>
+        </div>
+
+        <div class="scene-toast" id="sceneToast" role="status"></div>
+      </section>
+
+      <aside class="status-panel panel">
+        <div class="panel-heading">
+          <span>生存状态</span>
+          <small id="stateHint">勉强撑得住</small>
+        </div>
+        <div class="vitals" id="vitals"></div>
+
+        <div class="section-rule"><span>本月目标</span></div>
+        <div class="quest-card urgent">
+          <div class="quest-title"><span>高利贷倒计时</span><b id="questDebt">¥30,000</b></div>
+          <div class="progress-track debt-track"><i id="debtProgress"></i></div>
+          <p id="debtNote">第4天起，每3天按余额7%利滚利（最少¥500）。</p>
+          <div class="threat-row" id="threatRow" hidden></div>
+          <button class="wide-btn danger-btn" id="repayBtn">立即还款</button>
+        </div>
+
+        <div class="section-rule" id="chronicRule" hidden><span>身体损耗</span></div>
+        <div class="chronic-list" id="chronicList"></div>
+
+        <div class="section-rule"><span>资产与人脉</span></div>
+        <div class="mini-stats">
+          <div><span>生意经验</span><b id="businessValue">0</b></div>
+          <div><span>山城口碑</span><b id="repValue">0</b></div>
+          <div><span>父亲病情</span><b id="fatherValue">稳定</b></div>
+        </div>
+        <div class="asset-list" id="assetList"></div>
+
+        <button class="wide-btn ghost-btn" id="ledgerBtn">查看本月账本</button>
+      </aside>
+
+      <section class="action-panel panel">
+        <div class="action-head">
+          <div>
+            <p class="eyebrow">WHAT WILL YOU DO?</p>
+            <h3 id="actionTitle">出租屋 · 可做的事</h3>
+          </div>
+          <div class="action-tabs" id="actionTabs" role="tablist">
+            <button class="active" data-tab="survive">眼下</button>
+            <button data-tab="hustle">生意</button>
+            <button data-tab="social">人情</button>
+          </div>
+        </div>
+        <div class="action-grid" id="actionGrid"></div>
+      </section>
+    </main>
+
+    <nav class="mobile-nav" aria-label="移动端菜单">
+      <button data-mobile="map"><span>⌖</span>地图</button>
+      <button class="active" data-mobile="actions"><span>◆</span>行动</button>
+      <button data-mobile="status"><span>◫</span>状态</button>
+    </nav>
+  </div>
+
+  <div class="modal-layer open" id="startModal" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+    <div class="start-card">
+      <div class="start-art"></div>
+      <div class="start-content">
+        <p class="eyebrow">A LIFE SIMULATION · CHONGQING</p>
+        <h2 id="startTitle"><span>山城浮生</span><small>打工生活模拟器</small></h2>
+        <blockquote>“爸的手术不能等。三万块，我先借。”</blockquote>
+        <p>你叫<strong>周川</strong>，22岁。刚到重庆，兜里只剩<strong>50元</strong>。父亲的手术费来自一笔高利贷——30天后，必须还清。</p>
+        <div class="start-rules">
+          <span><b>30</b> 天期限</span><span><b>7</b> 个每日时段</span><span><b>13</b> 处山城场景</span>
+        </div>
+        <label class="name-field">你的名字<input id="playerNameInput" maxlength="6" value="周川" aria-label="玩家名字"></label>
+        <div class="start-actions">
+          <button class="primary-btn" id="newGameBtn">踏进山城</button>
+          <button class="ghost-btn" id="continueBtn" disabled>继续上次生活</button>
+        </div>
+        <small class="autosave-note">行动、通勤和每天结束后都会自动保存</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-layer" id="dialogModal" role="dialog" aria-modal="true" aria-labelledby="dialogName">
+    <div class="dialog-card">
+      <div class="dialog-portrait-wrap"><img id="dialogPortrait" alt="人物立绘"></div>
+      <div class="dialog-body">
+        <p class="dialog-role" id="dialogRole"></p>
+        <h2 id="dialogName"></h2>
+        <p class="dialog-text" id="dialogText"></p>
+        <div class="dialog-options" id="dialogOptions"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-layer" id="genericModal" role="dialog" aria-modal="true" aria-labelledby="genericTitle">
+    <div class="generic-card">
+      <button class="modal-close" id="genericClose" aria-label="关闭">×</button>
+      <p class="eyebrow" id="genericEyebrow">MONTHLY LEDGER</p>
+      <h2 id="genericTitle">本月账本</h2>
+      <div id="genericContent"></div>
+    </div>
+  </div>
+
+  <div class="modal-layer result-layer" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="result-card">
+      <div class="result-stamp" id="resultIcon">工</div>
+      <p class="eyebrow" id="resultEyebrow">ACTION SETTLEMENT</p>
+      <h2 id="resultTitle">行动结算</h2>
+      <p class="result-narrative" id="resultNarrative"></p>
+      <div class="result-route" id="resultRoute" hidden></div>
+      <div class="result-deltas" id="resultDeltas"></div>
+      <button class="primary-btn result-continue" id="resultContinue">收好，继续生活</button>
+    </div>
+  </div>
+
+  <div class="modal-layer" id="endingModal" role="dialog" aria-modal="true" aria-labelledby="endingTitle">
+    <div class="ending-card">
+      <p class="eyebrow">30 DAYS LATER</p>
+      <div class="ending-seal" id="endingSeal">成</div>
+      <h2 id="endingTitle">山城有了你的灯</h2>
+      <p id="endingText"></p>
+      <div class="ending-stats" id="endingStats"></div>
+      <button class="primary-btn" id="restartBtn">再活一次</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
